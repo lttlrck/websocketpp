@@ -935,9 +935,8 @@ protected:
         );
 
         if (config::enable_multithreading) {
-            boost::asio::async_connect(
-                tcon->get_raw_socket(),
-                iterator,
+            tcon->get_raw_socket().async_connect(
+                *iterator,
                 tcon->get_strand()->wrap(lib::bind(
                     &type::handle_connect,
                     this,
@@ -947,10 +946,10 @@ protected:
                     lib::placeholders::_1
                 ))
             );
+
         } else {
-            boost::asio::async_connect(
-                tcon->get_raw_socket(),
-                iterator,
+            tcon->get_raw_socket().async_connect(
+                *iterator,
                 lib::bind(
                     &type::handle_connect,
                     this,
